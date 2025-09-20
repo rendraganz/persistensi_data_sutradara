@@ -27,7 +27,7 @@ const db = new sqlite3.Database(DBSOURCE, (err) => {
 
         // directors
         db.run(`CREATE TABLE IF NOT EXISTS directors (
-            id INTEGER PRIMARY,
+            id INTEGER PRIMARY KEY,
             name TEXT NOT NULL,
             birthYear INT
         );`, (err) => {
