@@ -10,7 +10,7 @@ const db = new sqlite3.Database(DBSOURCE, (err) => {
         console.log('Connected to the SQLite database.');
         // movies
         db.run(`CREATE TABLE IF NOT EXISTS movies (
-            id INT PRIMARY KEY,
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
             title TEXT NOT NULL,
             director TEXT NOT NULL,
             year INT
@@ -22,6 +22,17 @@ const db = new sqlite3.Database(DBSOURCE, (err) => {
                 db.run(insert, [1, "Suami Takut Istri", "Rendra", 2036]);
                 db.run(insert, [2, "Tukang Bubur Naik Haji", "Tukang Bubur", 2014]);
                 console.log("Table 'movies' already exists.");
+            }
+        });
+        
+        //tabel users
+        db.run(`CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            username TEXT NOT NULL UNIQUE,
+            password TEXT NOT NULL
+        )`, (err) => {
+            if (err) {
+                console.error("Gagal membuat tabel users:", err.message);
             }
         });
 
