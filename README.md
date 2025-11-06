@@ -50,5 +50,5 @@ app.get('/directors/:id', (req, res) => {
 
 
 
-4. Json Update
+3. Lampiran Json
 - ![file json update](media/Rendra%20Praktikum%20Authorization.postman_collection.json)
