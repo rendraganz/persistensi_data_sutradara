@@ -28,6 +28,25 @@
 ![delete directors dengan token](media/delete_directors_dengan_token.png)
 
 2. Biarkan endpoint GET ```/directors``` dan GET ```/directors/:id``` tetap publik.
+````
+app.get('/directors', (req, res) => {
+    const sql = "SELECT * FROM directors ORDER BY id ASC;";
+    db.all(sql, [], (err, rows) => {
+        if (err) return res.status(400).json({ error: err.message });
+        res.json(rows);
+    });
+});
+````
+
+````
+app.get('/directors/:id', (req, res) => {
+    const sql = "SELECT * FROM directors WHERE id = ?";
+    db.get(sql, [req.params.id], (err, row) => {
+        if (err) return res.status(400).json({ error: err.message });
+        res.json(row);
+    });
+});
+````
 
 
 
