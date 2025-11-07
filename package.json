@@ -18,6 +18,7 @@
     "jsonwebtoken": "^9.0.2",
     "module": "^2.0.0",
     "node": "^25.1.0",
+    "nodemon": "^3.1.10",
     "sqlite3": "^5.1.7"
   }
 }

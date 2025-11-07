@@ -18,7 +18,7 @@ const db = new sqlite3.Database(DBSOURCE, (err) => {
             if (err) {
                 console.error("Error creating table 'movies':", err.message);
             } else {
-                const insert = 'INSERT INTO movies (id, title, director, year) VALUES (?,?,?,?)';
+                const insert = 'INSERT OR IGNORE INTO movies (id, title, director, year) VALUES (?,?,?,?)';
                 db.run(insert, [1, "Suami Takut Istri", "Rendra", 2036]);
                 db.run(insert, [2, "Tukang Bubur Naik Haji", "Tukang Bubur", 2014]);
                 console.log("Table 'movies' already exists.");
@@ -45,7 +45,7 @@ const db = new sqlite3.Database(DBSOURCE, (err) => {
             if (err) {
                 console.error("Error creating table 'directors':", err.message);
             } else {
-                const insert = 'INSERT INTO directors (id, name, birthYear) VALUES (?,?,?)';
+                const insert = 'INSERT OR IGNORE INTO directors (id, name, birthYear) VALUES (?,?,?)';
                 db.run(insert, [1, "Rendra", 2036]);
                 db.run(insert, [2, "Tukang Bubur", 2014]);
                 console.log("Table 'directors' already exists.");

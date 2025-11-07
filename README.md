@@ -9,6 +9,9 @@
 ### Praktikum Modul 5 || PengamananAPI-Autentikasi dan Autorisasi dengan JWT
 
 1. Terapkan middleware ```authenticateToken``` ke endpoint berikut:
+- **GET** ```/profile``` dengan token
+![melihat profile](media/get_profile.png)
+
 - **POST** ```/directors``` tanpa token
 ![post directors tanpa token](media/post_directors_tanpa_token.png)
 

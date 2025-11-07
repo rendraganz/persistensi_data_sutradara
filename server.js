@@ -156,6 +156,17 @@ app.delete('/directors/:id', authenticateToken, (req, res) => {
     });
 });
 
+// profile
+app.get('/profile', authenticateToken, (req, res) => {
+    const sql = "SELECT * FROM users;";
+    db.all(sql, [], (err, rows) => {
+        if (err) {
+            return res.status(400).json({ error: err.message });
+        }
+        res.status(201).json(rows);
+    });
+})
+
 // auth routes
 app.post('/auth/register', (req, res) => {
     const {username, password} = req.body;
