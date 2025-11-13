@@ -10,7 +10,8 @@ const JWT_SECRET = process.env.JWT_SECRET;
 
 
 // lain
-const authenticateToken = require('./middleware/authMiddleware');
+const {authenticateToken, authorizeRole} = require('./middleware/auth.js');
+const { error } = require('console');
 
 const app = express();
 const port = process.env.PORT;
@@ -80,7 +81,7 @@ app.post('/movies', authenticateToken, (req, res) => {
 });
 
 // update movie by id
-app.put('/movies/:id', authenticateToken, (req, res) => {
+app.put('/movies/:id', [authenticateToken, authorizeRole('admin')], (req, res) => {
     const { title, director, year } = req.body;
     const sql = "UPDATE movies SET title = ?, director = ?, year = ? WHERE id = ?";
     db.run(sql, [title, director, year, req.params.id], function(err) {
@@ -92,13 +93,15 @@ app.put('/movies/:id', authenticateToken, (req, res) => {
 });
 
 // hapus movie
-app.delete('/movies/:id', authenticateToken, (req, res) => {
+app.delete('/movies/:id', [authenticateToken, authorizeRole('admin')], (req, res) => {
     const sql = "DELETE FROM movies WHERE id = ?";
     db.run(sql, [req.params.id], function(err) {
         if (err) {
-            return res.status(400).json({ error: err.message });
+            return res.status(403).json({ error: err.message });
         }
-        res.status(201).json({ deletedID: req.params.id });
+        console.log(`${req.params.id}`);
+        res.sendStatus(204);
+        // res.status(201).json({ deletedID: req.params.id });
     });
 });
 
@@ -134,7 +137,7 @@ app.post('/directors', authenticateToken, (req, res) => {
 
 
 // update director 
-app.put('/directors/:id', authenticateToken, (req, res) => {
+app.put('/directors/:id', [authenticateToken, authorizeRole('admin')], (req, res) => {
     const { name, birthYear } = req.body;
     const sql = "UPDATE directors SET name = ?, birthYear = ? WHERE id = ?";
     db.run(sql, [name, birthYear, req.params.id], function(err) {
@@ -146,13 +149,15 @@ app.put('/directors/:id', authenticateToken, (req, res) => {
 });
 
 // hapus id
-app.delete('/directors/:id', authenticateToken, (req, res) => {
+app.delete('/directors/:id', [authenticateToken, authorizeRole('admin')], (req, res) => {
     const sql = "DELETE FROM directors WHERE id = ?";
     db.run(sql, [req.params.id], function(err) {
         if (err) {
             return res.status(400).json({ error: err.message });
         }
-        res.status(201).json({ deletedID: req.params.id });
+        console.log(`${req.params.id}`);
+        res.sendStatus(204);
+        // res.status(201).json({ deletedID: req.params.id });
     });
 });
 
@@ -167,6 +172,34 @@ app.get('/profile', authenticateToken, (req, res) => {
     });
 })
 
+// membuat admin
+app.post('/auth/register-admin', (req, res) => {
+    const {username, password} = req.body;
+    if (!username || !password || password.length < 6) {
+        return res.status(400).json({error: 'Username dan password (min 6 char) harus diisi'});
+    }
+
+    bcrypt.hash(password, 10, (err, hashedPassword) => {
+        if (err) {
+            console.error("Error hashing:", err);
+            return res.status(500).json({error: 'Gagal memproses pendaftaran'});
+        }
+
+        const sql = 'INSERT INTO users (username, password, role) VALUES (?, ?, ?)';
+        const params = [username.toLowerCase(), hashedPassword, 'admin'];
+        db.run(sql, params, function(err) {
+            if (err) {
+                if (err.message.includes('UNIQUE constraint')) {
+                    return res.status(409).json({error: 'Username admin sudah ada'});
+                }
+                console.error("Error inserting admin:", err);
+                return res.status(500).json({error: err.message});
+            }
+            res.status(201).json({message: 'Admin berhasil dibuat', userId: this.lastID});
+        });
+    });
+});
+
 // auth routes
 app.post('/auth/register', (req, res) => {
     const {username, password} = req.body;
@@ -180,8 +213,8 @@ app.post('/auth/register', (req, res) => {
             return res.status(500).json({error: 'Gagal memproses pendaftaran'});
         }
 
-        const sql = 'INSERT INTO users (username, password) VALUES (?, ?)';
-        const params = [username.toLowerCase(), hashedPassword];
+        const sql = 'INSERT INTO users (username, password, role) VALUES (?, ?, ?)';
+        const params = [username.toLowerCase(), hashedPassword, 'user']; 
         db.run(sql, params, function(err) {
             if (err) {
                 if (err.message.includes('UNIQUE constraint')) {
@@ -213,7 +246,11 @@ app.post('/auth/login', (req, res) => {
                 return res.status(401).json ({error: 'Kredensial tidak valid'});
             }
 
-            const payload = {user: {id: user.id, username: user.username}};
+            const payload = {user: {
+                id: user.id,
+                username: user.username,
+                role: user.role
+            }};
 
             jwt.sign (payload, JWT_SECRET, {expiresIn: '1h'}, (err, token) => {
                 if (err) {

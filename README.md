@@ -55,3 +55,13 @@ app.get('/directors/:id', (req, res) => {
 
 3. Lampiran Json
 - ![file json update](media/Rendra%20Praktikum%20Authorization.postman_collection.json)
+
+### Praktikum 6 || ModelAutorisasi: RBAC(Role-BasedAccessControl)
+
+2. Koleksi Postman (.json): File ekspor dari Collection Postman Anda. Koleksi ini harus
+ mencakup pengujian untuk:
+ - Login sebagai ”user” dan mencoba menghapus sutradara (gagal 403).
+![hapus director pakai user biasa](media/hapus_director_user_biasa.png)
+
+ - Login sebagai ”admin” dan mencoba menghapus sutradara (berhasil 204).
+ ![hapus directors pakai admin](media/hapus_directors_admin.png)

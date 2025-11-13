@@ -1,0 +1,358 @@
+{
+	"info": {
+		"_postman_id": "ceec461e-7876-45a1-99f2-71a04a05a8ef",
+		"name": "Praktikum RBAC",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "47979586"
+	},
+	"item": [
+		{
+			"name": "daftar admin",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"rendraga\",\r\n    \"password\": \"rendraganz\",\r\n    \"role\": \"admin\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3036/auth/register-admin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3036",
+					"path": [
+						"auth",
+						"register-admin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "daftar user biasa",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"orangbiasa\",\r\n    \"password\": \"iyaiyaiya\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3036/auth/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3036",
+					"path": [
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login admin",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"rendraga\",\r\n    \"password\": \"rendraganz\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3036/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3036",
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get movie",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"rendraga\",\r\n    \"password\": \"rendraganz\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3036/movies",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3036",
+					"path": [
+						"movies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login user biasa",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"orangbiasa\",\r\n    \"password\": \"iyaiyaiya\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3036/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3036",
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete movie pakai user biasa",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token biasa}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3036/movies/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3036",
+					"path": [
+						"movies",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete movie pakai admin",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token admin}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3036/movies/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3036",
+					"path": [
+						"movies",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get director",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"rendraga\",\r\n    \"password\": \"rendraganz\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3036/directors",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3036",
+					"path": [
+						"directors"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "hapus director pakai user biasa",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token biasa}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3036/directors/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3036",
+					"path": [
+						"directors",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "hapus director pakai admin",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token admin}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3036/directors/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3036",
+					"path": [
+						"directors",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "token admin",
+			"value": ""
+		},
+		{
+			"key": "token biasa",
+			"value": ""
+		}
+	]
+}

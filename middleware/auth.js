@@ -1,3 +1,4 @@
+const { error } = require('console');
 const jwt = require('jsonwebtoken');
 const JWT_SECRET = process.env.JWT_SECRET;
 
@@ -10,7 +11,7 @@ function authenticateToken(req, res, next) {
     }
     jwt.verify(token, JWT_SECRET, (err, decodePayload) => {
         if (err) {
-            console.error("JWT Verify Error:", err.message);
+            // console.error("JWT Verify Error:", err.message);
             return res.status(403).json ({error: 'Token tidak valid atau kadaluwarsa'});
         }
         req.user = decodePayload.user;
@@ -18,4 +19,17 @@ function authenticateToken(req, res, next) {
     })
 }
 
-module.exports = authenticateToken;
+function authorizeRole(role) {
+    return (req, res, next) => {
+        if (req.user && req.user.role === role) {
+            next();
+        } else {
+            return res.status(403).json({error: 'Akses Dilarang: Peran tidak memadai'});
+        }
+    };
+}
+
+module.exports = {
+    authenticateToken,
+    authorizeRole
+};
