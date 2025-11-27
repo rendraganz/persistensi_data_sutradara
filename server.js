@@ -16,7 +16,7 @@ app.use(express.json());
 
 
 app.get('/', (req, res) => {
-    res.json({ message: "Salah rute kaleehhhhh"});
+    res.json({ message: "Test berhasil"});
 })
 // === STATUS ROUTE ===
 app.get('/status', (req, res) => {
