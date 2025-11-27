@@ -5,7 +5,6 @@ const db = require('./db.js');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { authenticateToken, authorizeRole } = require('./middleware/auth.js');
-const { error } = require('console');
 
 constapp = express();
 constPORT = process.env.PORT || 3036;
