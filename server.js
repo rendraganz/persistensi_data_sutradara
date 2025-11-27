@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken');
 const { authenticateToken, authorizeRole } = require('./middleware/auth.js');
 
 const app = express();
-const PORT = 3300;
+const PORT = 3036;
 const JWT_SECRET = process.env.JWT_SECRET;
 
 // === MIDDLEWARE ===
