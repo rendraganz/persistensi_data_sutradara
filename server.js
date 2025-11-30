@@ -120,13 +120,13 @@ app.get('/movies/:id', async (req, res, next) => {
   }
 });
 
-app.post('/movies', authenticateToken, async (req, res, next) => {
-  const { title, director_id, year } = req.body;
-  if (!title || !director_id || !year) return res.status(400).json({ error: 'title, director_id, year wajib diisi' });
+app.post('/directors', authenticateToken, authorizeRole('admin'), async (req, res, next) => {
+  const { name, birthYear } = req.body;
+  if (!name) return res.status(400).json({ error: 'name wajib diisi' });
 
-  const sql = 'INSERT INTO movies (title, director_id, year) VALUES ($1, $2, $3) RETURNING *';
+  const sql = 'INSERT INTO directors (name, birthYear) VALUES ($1, $2) RETURNING *';
   try {
-    const result = await db.query(sql, [title, director_id, year]);
+    const result = await db.query(sql, [name, birthYear ?? null]);
     res.status(201).json(result.rows[0]);
   } catch (err) {
     next(err);
