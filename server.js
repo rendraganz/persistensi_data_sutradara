@@ -184,7 +184,7 @@ app.post('/directors', authenticateToken, authorizeRole('admin'), async (req, re
   const { name } = req.body;
   if (!name) return res.status(400).json({ error: 'name wajib diisi' });
 
-  const sql = 'INSERT INTO directors (name) VALUES ($1) RETURNING *';
+  const sql = 'INSERT INTO directors (name, birthYear) VALUES ($1, $2) RETURNING *';
   try {
     const result = await db.query(sql, [name]);
     res.status(201).json(result.rows[0]);
